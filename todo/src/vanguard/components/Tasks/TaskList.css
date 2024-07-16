@@ -1,0 +1,13 @@
+.task-list {
+  position: relative;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: start;
+  gap: 10px;
+  overflow-y: auto;
+}
+.task-list::-webkit-scrollbar {
+  display: none;
+}

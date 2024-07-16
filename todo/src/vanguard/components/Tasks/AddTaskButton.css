@@ -1,0 +1,19 @@
+.add-task-btn-container {
+  width: full;
+  display: flex;
+  justify-content: end;
+}
+.add-task-btn {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0b60b0;
+  border-radius: 50%;
+  position: relative;
+  right: 0;
+}
+.add-task-btn:hover {
+  cursor: pointer;
+}

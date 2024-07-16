@@ -1,0 +1,27 @@
+.task {
+  display: flex;
+  width: 20rem;
+  height: fit-content;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+  margin: 0 0 0 1rem;
+  padding: 1rem 1rem;
+}
+.task > .title {
+  font-size: xx-large;
+  font-weight: bold;
+}
+.task .tags {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.task > .tags > .status,
+.priority {
+  padding: 0 1rem;
+  font-size: larger;
+  border: 1px solid black;
+  border-radius: 1rem;
+}

@@ -1,0 +1,19 @@
+.add-task-modal {
+  width: 45%;
+  height: 70%;
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.add-task-modal .action-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.add-task-modal .container .title {
+  font-size: larger;
+  font-weight: bolder;
+}

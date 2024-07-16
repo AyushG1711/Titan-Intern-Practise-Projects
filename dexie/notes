@@ -1,0 +1,93 @@
+querying a table is synchronous, does not require await 
+
+applying any methods such as toArray() is async i.e. returns a promise so needs to be awaited
+
+toArray is a promise, so a cb can be passed to it as an arg which will operate on the result of the query, and the result of the query is not passed to left assigned operand
+
+A query will be executed when calling methods that returns a Promise, such as toArray(), keys(), count() or each().
+
+db.tableName.orderBy("FieldNameOfTheTableWhichIsIndexed").ordkeys() -> returns a promise that on resolving yields an array of values of the index
+
+//SORTING 
+//ASC
+collection.sortBy("fieldName")
+
+//DESC
+collection.reverse().sortBy("fieldName")
+
+//ORDERBY(indexedColumnName)
+It will return the objects sorted by the indexed col 
+orderby("name") => this means index is applied on name column 
+orderby(":id") => this will return the objects sorted by primary column 
+//It cannot be applied on collection as if you first filter the records by one column and then orderBy using another column then it won't be easier 
+db.table.where("age").above(25).orderBy(":id") //NOT POSSIBLE 
+
+
+//Where clause 
+where('key') -> key is index 
+where([key1, key2,..., keyn]) -> [key1+key2+...+keyn] is compound index 
+where({indexedKey:value, key:value, key:value,...}) -> arg is called `criteria`, it must have first key to be indexed, rest of the keys in criteria can be unIndexed.
+
+in any way, the arg needs to be indexed 
+
+//how to fetch the items if the filter involves only unindexed property 
+//get
+get({unIndexedKey:value}) 
+get(primaryKeyValue) 
+
+time to retrieve items on an indexedKey using get({indexedKey:value}) -> 5ms 
+time to retrieve items on an indexedKey using where({indexedKey:value}) -> .08ms 
+//where clause needs an index key so, it makes use of b-tree 
+//get checks each row one by one 
+
+
+//udpate a record in table 
+table.update(primaryKeyValue, {})
+    {} -> Object containing the key paths to each property you want to change, properties not mentioned in {} will remain same 
+
+//put 
+Create(if not exists) or replace(if already exists)
+table.put({}) 
+    {} -> if obj contains pkey 
+            if a matching record is found then replace 
+            else create a new record 
+          else it is obvious to create a new record with automatically created id 
+
+
+//modify 
+it modifies the objects of a collection
+table.where(indexedKey).equals(23).modify({}) -> replace the objects return by table.where(indexedKey).equals(23) by {}
+modify(()=>{}) -> cb will be invoked with objects one by one and whatever property you change inside cb will be applied once func has returned 
+
+How to change whole obj in cb?
+modify(function(){
+    this.value = {};
+})
+
+
+
+
+//Error bubbling in IDB 
+particular operation's catch block -> trx's catch -> window's unhandledRejection event's callback 
+
+
+//inbound v/s outbound pkeys 
+inbound -> when you include pkey in table then pkey is called inbound 
+outbound -> when you dont include pkey in table then pkey is called outbound 
+
+
+//to search according to pkey, no matter what is the name of pkey, you have to use (":id")
+suppose pkey name is studentId but still you have to use table.where(":id")
+
+//if you give a name to first text in string in stores({tableName:"studentId, name, age"}) then you would find studentId in the record object 
+table.add({studentId:23, name:"", age:23})
+table.add({name:"", age:332}, 23) wont work -> this way of writing will work only for outbound pkey 
+
+//if you dont give a name to first text in string in stores({tableName:", name, age"}) then you would not find id in the record object 
+table.add({name:"", age:23}, 2323) 2323 is pkeyvalue 
+
+//dont give name but auto-inc in stores({tableName:"++, name, age"})
+table.add({name:"", age:322}); works, here you dont need to give pkey value because it wiill automatically inc 
+table.add({name:"", age:333}, 3322) works also 
+
+

@@ -1,0 +1,27 @@
+.action-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filters {
+  min-width: fit-content;
+  height: fit-content;
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  justify-content: start;
+  align-items: items-between;
+  border-radius: 1rem;
+}
+.filters .filter .title {
+  font-size: larger;
+  font-weight: 600;
+}
+.filters .heading {
+  width: 100%;
+  font-size: x-large;
+  font-weight: 800;
+  text-align: center;
+}
